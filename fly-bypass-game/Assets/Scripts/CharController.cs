@@ -25,8 +25,10 @@ public class CharController : MonoBehaviour
     private bool isJumping = false;
     private bool isFlying = false;
 
-    // wing amount
+    // wing parameters
+    [SerializeField] private GameObject collectWingsOnBack;
     public static int wingCount;
+    
     
     void Start()
     {
@@ -79,5 +81,10 @@ public class CharController : MonoBehaviour
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsJumping", isJumping);
         animator.SetBool("IsFlying", isFlying);
+    }
+
+    public void ShowCollectWings()
+    {
+        collectWingsOnBack.SetActive(true);
     }
 }

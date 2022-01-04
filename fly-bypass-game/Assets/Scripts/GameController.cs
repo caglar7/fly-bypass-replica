@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public static GameController instance;
 
     public float wingCollectTime = 2f;
+    public bool collectWingsOnBack = false;         // might hide this on inspector put still public
 
     void Awake()
     {

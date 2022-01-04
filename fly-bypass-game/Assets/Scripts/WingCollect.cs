@@ -36,7 +36,7 @@ public class WingCollect : MonoBehaviour
             if (timeRemaining <= 0f)
             {
                 isAvailable = true;
-                ActivateWing();
+                ActivateCollectWing();
             }
         }
     }
@@ -48,24 +48,30 @@ public class WingCollect : MonoBehaviour
 
         if(other.tag == "Player")
         {
-            Debug.Log("Wings collected!!");
+            // if no collect wings on back, place them, happens only at first
+            if(GameController.instance.collectWingsOnBack == false)
+            {
+                GameController.instance.collectWingsOnBack = true;
+                other.gameObject.GetComponent<CharController>().ShowCollectWings();
+            }
+
             timeRemaining = updateTime;
             isAvailable = false;
-            DeactivateWing();
+            DeactivateCollectWing();
 
             // give +3 wings to character with an text animation and particle effect
             CharController.wingCount += 3;
         }
     }
 
-    void DeactivateWing()
+    void DeactivateCollectWing()
     {
         collider.enabled = false;
         foreach (MeshRenderer m in meshRenderers)
             m.enabled = false;
     }
 
-    void ActivateWing()
+    void ActivateCollectWing()
     {
         collider.enabled = true;
         foreach (MeshRenderer m in meshRenderers)
