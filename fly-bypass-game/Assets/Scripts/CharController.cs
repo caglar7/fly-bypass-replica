@@ -15,14 +15,24 @@ public class CharController : MonoBehaviour
     // gravity, ground check, jump height
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float jumpHeight = 10f;
-    private float gravity = -40f;
+    [SerializeField] private float gravity = -40f;
     private float velocityY;
     private bool isOnGround;
-    
 
+    // animation parameters
+    [SerializeField] private Animator animator;
+    private bool isRunning = false;
+    private bool isJumping = false;
+    private bool isFlying = false;
+
+    // wing amount
+    public static int wingCount;
+    
     void Start()
     {
         charController = GetComponent<CharacterController>();
+        isRunning = true;
+        wingCount = 0;
     }
 
     // Update is called once per frame
@@ -31,7 +41,12 @@ public class CharController : MonoBehaviour
         // check ground and apply gravity if not on ground
         isOnGround = Physics.CheckSphere(transform.position, .1f, groundLayer, QueryTriggerInteraction.Ignore);
         if (isOnGround && velocityY < 0f)
+        {
             velocityY = 0f;
+            isRunning = true;
+            isJumping = false;
+            isFlying = false;
+        }
         else
             velocityY += gravity * Time.deltaTime;
 
@@ -46,12 +61,23 @@ public class CharController : MonoBehaviour
 
         // jump
         if (isOnGround && Input.GetButtonDown("Jump"))
+        {
             velocityY += Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+            // jumps and starts flying
+            isRunning = false;
+            isJumping = false;
+            isFlying = false;
+        }
 
         // get movingVector from direction and custom gravity
         Vector3 movingDir = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
         Vector3 movingVector = new Vector3(movingDir.x * speed, velocityY, movingDir.z * speed);
         charController.Move(movingVector * Time.deltaTime);
 
+        // play proper animations
+        animator.SetBool("IsRunning", isRunning);
+        animator.SetBool("IsJumping", isJumping);
+        animator.SetBool("IsFlying", isFlying);
     }
 }
