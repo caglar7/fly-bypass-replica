@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 7ad46d521d20e5d419ec5a613639e06f
+guid: df48033e78e16274680fa6adfa991b9a
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable:
   - first:
-      74: -203655887218126122
-    second: mixamo.com
+      74: -4791504522942941401
+    second: Armature|Armature|mixamo.com|Layer0
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -26,7 +26,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -87,10 +87,10 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 3
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
