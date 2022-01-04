@@ -15,29 +15,32 @@ public class CharController : MonoBehaviour
     // gravity, ground check, jump height
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float jumpHeight = 10f;
-    [SerializeField] private float gravity = -40f;
+    [SerializeField] private float gravityRun = -40f;
+    [SerializeField] private float gravityFly = -5f;
+    [SerializeField] private float gravityApplyTime = 1f;
+    private float gravity;
     private float velocityY;
     private bool isOnGround;
+    private bool isJumped = false; // toggle to apply jump and fly only once
 
     // animation parameters
     [SerializeField] private Animator animator;
     private bool isRunning = false;
-    private bool isJumping = false;
     private bool isFlying = false;
 
     // wing parameters
     [SerializeField] private GameObject collectWingsOnBack;
     public static int wingCount;
-    
-    
+
+
     void Start()
     {
         charController = GetComponent<CharacterController>();
+        gravity = gravityRun;
         isRunning = true;
         wingCount = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
         // check ground and apply gravity if not on ground
@@ -46,11 +49,13 @@ public class CharController : MonoBehaviour
         {
             velocityY = 0f;
             isRunning = true;
-            isJumping = false;
             isFlying = false;
+            isJumped = false;
         }
         else
+        {
             velocityY += gravity * Time.deltaTime;
+        }
 
         // to the left or right, for now later with screen scroll
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -61,15 +66,14 @@ public class CharController : MonoBehaviour
         float angle = rotationY + rotation * Time.deltaTime;
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-        // jump
-        if (isOnGround && Input.GetButtonDown("Jump"))
+        // jump and fly when off the ground
+        if(isOnGround == false && isJumped == false)
         {
-            velocityY += Mathf.Sqrt(jumpHeight * -2f * gravity);
-
-            // jumps and starts flying
             isRunning = false;
-            isJumping = false;
-            isFlying = false;
+            isFlying = true;
+            isJumped = true;
+            velocityY += Mathf.Sqrt(jumpHeight * -2f * gravity);
+            StartCoroutine(ApplyGravityAfterDelay());
         }
 
         // get movingVector from direction and custom gravity
@@ -79,12 +83,17 @@ public class CharController : MonoBehaviour
 
         // play proper animations
         animator.SetBool("IsRunning", isRunning);
-        animator.SetBool("IsJumping", isJumping);
         animator.SetBool("IsFlying", isFlying);
     }
 
     public void ShowCollectWings()
     {
         collectWingsOnBack.SetActive(true);
+    }
+
+    IEnumerator ApplyGravityAfterDelay()
+    {
+        yield return new WaitForSeconds(gravityApplyTime);
+        gravity = gravityFly;
     }
 }
