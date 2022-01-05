@@ -28,7 +28,7 @@ public class CharController : MonoBehaviour
 
     // wing parameters, -1 for all wing lengths but -20 for one pair then -30 for falling
     [Header("Wing Parameters")]
-    [SerializeField] private GameObject collectWingsOnBack;
+    [SerializeField] private GameObject characterWings;
     [SerializeField] private float loseWingsPeriod = 2f;
     private float wingsTimer;
     public static int wingCount;
@@ -59,11 +59,15 @@ public class CharController : MonoBehaviour
             wingsTimer -= Time.deltaTime;
             if(wingsTimer <= 0f)
             {
-                // lose wings here and animate
+                // lose wings logic
                 wingsTimer = loseWingsPeriod;
                 wingCount -= 2;
                 wingCount = (wingCount <= 0) ? 0 : wingCount;
                 gravity = GravityAtWingCount(wingCount);
+
+                // lose wings gfx, lose if wingcount >= 2
+                Debug.Log("Wing count in charcont: " + wingCount);
+                characterWings.GetComponent<WingController>().LoseWings();
             }
         }
 
@@ -111,7 +115,7 @@ public class CharController : MonoBehaviour
 
     public void ShowCollectWings()
     {
-        collectWingsOnBack.SetActive(true);
+        characterWings.SetActive(true);
     }
 
     // wait and apply proper gravity
@@ -121,6 +125,9 @@ public class CharController : MonoBehaviour
         yield return new WaitForSeconds(gravityApplyTime);
         velocityY = 0f;
         gravity = GravityAtWingCount(wingCount);
+
+        // open wings here
+        characterWings.GetComponent<WingController>().OpenWings();
     }
 
     private float GravityAtWingCount(int count)
