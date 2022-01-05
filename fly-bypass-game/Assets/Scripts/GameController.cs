@@ -10,7 +10,9 @@ public class GameController : MonoBehaviour
     public static GameController instance;
 
     public float wingCollectTime = 2f;
-    [System.NonSerialized] public bool collectWingsOnBack = false;    
+    [System.NonSerialized] public bool collectWingsOnBack = false;
+
+    public bool isLandingAvailable = true;
 
     void Awake()
     {

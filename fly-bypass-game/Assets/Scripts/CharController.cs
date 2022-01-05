@@ -32,12 +32,14 @@ public class CharController : MonoBehaviour
     [SerializeField] private float loseWingsPeriod = 2f;
     private float wingsTimer;
     public static int wingCount;
+    private bool isWingsOpen = false;
     
     // animation parameters
     [Header("Animation Parameters")]
     [SerializeField] private Animator animator;
     private bool isRunning = false;
     private bool isFlying = false;
+
 
     void Start()
     {
@@ -50,37 +52,42 @@ public class CharController : MonoBehaviour
 
     void Update()
     {
-        // check ground and apply gravity if not on ground
+        // check ground and apply gravity if not on ground, check landing triggers
         isOnGround = Physics.CheckSphere(transform.position, .1f, groundLayer, QueryTriggerInteraction.Ignore);
 
         // every period of time not on ground, lose wings, then adjust gravity
-        if(isOnGround == false)
+        if(!isOnGround && isWingsOpen)
         {
             wingsTimer -= Time.deltaTime;
             if(wingsTimer <= 0f)
             {
-                // lose wings logic
                 wingsTimer = loseWingsPeriod;
-                wingCount -= 2;
-                wingCount = (wingCount <= 0) ? 0 : wingCount;
+                // gfx
+                if (wingCount >= 4)
+                    characterWings.GetComponent<WingController>().LoseWings();
+                else if (wingCount >= 2)
+                    characterWings.GetComponent<WingController>().LoseMainWings();
+                // logic
+                wingCount = (wingCount >= 2) ? (wingCount - 2) : wingCount;
                 gravity = GravityAtWingCount(wingCount);
-
-                // lose wings gfx, lose if wingcount >= 2
-                Debug.Log("Wing count in charcont: " + wingCount);
-                characterWings.GetComponent<WingController>().LoseWings();
             }
         }
 
         if (isOnGround && velocityY < 0f)
         {
+            // setup for running
             velocityY = 0f;
             gravity = gravityRun;
             isRunning = true;
             isFlying = false;
             isJumped = false;
+            // close wings
+            characterWings.GetComponent<WingController>().CloseWings();
+            isWingsOpen = false;
         }
         else
         {
+            gravity = (GameController.instance.isLandingAvailable) ? gravityRun : gravity;
             velocityY += gravity * Time.deltaTime;
         }
 
@@ -115,7 +122,7 @@ public class CharController : MonoBehaviour
 
     public void ShowCollectWings()
     {
-        characterWings.SetActive(true);
+        characterWings.GetComponent<WingController>().ShowMainWings();
     }
 
     // wait and apply proper gravity
@@ -126,8 +133,9 @@ public class CharController : MonoBehaviour
         velocityY = 0f;
         gravity = GravityAtWingCount(wingCount);
 
-        // open wings here
+        // open wings
         characterWings.GetComponent<WingController>().OpenWings();
+        isWingsOpen = true;
     }
 
     private float GravityAtWingCount(int count)
@@ -139,4 +147,5 @@ public class CharController : MonoBehaviour
         else
             return gravityFall;
     }
+
 }
