@@ -81,12 +81,14 @@ public class WingController : MonoBehaviour
         GameObject wing1 = leftWingObjects[index];
         leftWingObjects.RemoveAt(index);
         wing1.AddComponent<Rigidbody>();
+        wing1.GetComponent<Animator>().SetBool("FadeOut", true);
         Destroy(wing1, wingDestroyTime);
 
         // right wing
         GameObject wing2 = rightWingObjects[index];
         rightWingObjects.RemoveAt(index);
         wing2.AddComponent<Rigidbody>();
+        wing2.GetComponent<Animator>().SetBool("FadeOut", true);
         Destroy(wing2, wingDestroyTime);
     }
 
