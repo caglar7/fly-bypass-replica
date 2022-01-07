@@ -40,6 +40,12 @@ public class CharController : MonoBehaviour
     private bool isRunning = false;
     private bool isFlying = false;
 
+    // player score parameters
+    [Header("Player Scored Parameters")]
+    [SerializeField] private Transform finishMarkerT;
+    [SerializeField] private Transform scoreEndMarkerT;
+    private bool levelFinished = false;
+    private float scoreSections = 40f;
 
     void Start()
     {
@@ -52,6 +58,9 @@ public class CharController : MonoBehaviour
 
     void Update()
     {
+        if (levelFinished)
+            return;
+
         // check ground and apply gravity if not on ground, check landing triggers
         isOnGround = Physics.CheckSphere(transform.position, .1f, groundLayer, QueryTriggerInteraction.Ignore);
 
@@ -118,6 +127,7 @@ public class CharController : MonoBehaviour
         // play proper animations
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsFlying", isFlying);
+
     }
 
     public void ShowCollectWings()
@@ -148,4 +158,32 @@ public class CharController : MonoBehaviour
             return gravityFall;
     }
 
+    // this is called from playerscored script
+    // when char landed on the score road
+    public void PlayerScored(int score)
+    {
+        levelFinished = true;
+        Debug.Log("score: " + score);
+    }
+
+    // look for score road, when it hits finish the level
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if(hit.gameObject.tag == "ScoreRoad" && levelFinished == false)
+        {
+            // set bool to finish level, set anim parameters
+            levelFinished = true;
+            isRunning = false;
+            isFlying = false;
+
+            // play player score animation, idle for now
+            animator.SetBool("IsRunning", isRunning);
+            animator.SetBool("IsFlying", isFlying);
+
+            // calculate score from the marker transforms
+            float sectionLength = (scoreEndMarkerT.position.z - finishMarkerT.position.z) / scoreSections;
+            float distanceFlied = transform.position.z - finishMarkerT.position.z;
+            int score = (int)(distanceFlied / sectionLength) + 1;
+        }
+    }
 }
