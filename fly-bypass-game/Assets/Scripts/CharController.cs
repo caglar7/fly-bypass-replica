@@ -7,13 +7,18 @@ public class CharController : MonoBehaviour
     // char controller and speed adjusting
     private CharacterController charController;
 
+    // bot parameters
+    [Header("Bot Controls")]
+    [SerializeField] private bool isBot = false;
+
     // character controls, ground layer, jumping
     [Header("Character Controls")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float rotationSpeed = 50f;
-    private float rotation = 0f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float jumpHeight = 10f;   // if any changes, calculate the time it takes to reach peak and adjust applytime
+    private float horizontal = 0f;
+    private float rotation = 0f;
 
     [Header("Gravity Parameters")]
     [SerializeField] private float gravityRun = -40f;
@@ -31,7 +36,7 @@ public class CharController : MonoBehaviour
     [SerializeField] private GameObject characterWings;
     [SerializeField] private float loseWingsPeriod = 2f;
     private float wingsTimer;
-    public static int wingCount;
+    private int wingCount;
     private bool isWingsOpen = false;
     
     // animation parameters
@@ -60,6 +65,29 @@ public class CharController : MonoBehaviour
     {
         if (levelFinished)
             return;
+
+
+        if(isBot)
+        {
+            // assigning horizontal for bots
+
+            // test
+            horizontal = 0f;
+        }
+        else
+        {
+            // player control, later with touch scroll
+            horizontal = Input.GetAxisRaw("Horizontal");
+        }
+
+
+        // assign rotation on proper direction
+        rotation = rotationSpeed * horizontal;
+
+        // rotation 
+        float rotationY = transform.rotation.eulerAngles.y;
+        float angle = rotationY + rotation * Time.deltaTime;
+        transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
         // check ground and apply gravity if not on ground, check landing triggers
         isOnGround = Physics.CheckSphere(transform.position, .1f, groundLayer, QueryTriggerInteraction.Ignore);
@@ -96,18 +124,9 @@ public class CharController : MonoBehaviour
         }
         else
         {
-            gravity = (GameController.instance.isLandingAvailable) ? gravityRun : gravity;
+            gravity = (GameController.instance.GetLandingValue(gameObject.name)) ? gravityRun : gravity;
             velocityY += gravity * Time.deltaTime;
         }
-
-        // to the left or right, for now later with screen scroll
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        rotation = rotationSpeed * horizontal;
-
-        // rotation 
-        float rotationY = transform.rotation.eulerAngles.y;
-        float angle = rotationY + rotation * Time.deltaTime;
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
         // jump and fly when off the ground
         if(isOnGround == false && isJumped == false)
@@ -127,12 +146,6 @@ public class CharController : MonoBehaviour
         // play proper animations
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsFlying", isFlying);
-
-    }
-
-    public void ShowCollectWings()
-    {
-        characterWings.GetComponent<WingController>().ShowMainWings();
     }
 
     // wait and apply proper gravity
@@ -148,22 +161,20 @@ public class CharController : MonoBehaviour
         isWingsOpen = true;
     }
 
-    private float GravityAtWingCount(int count)
+    public void ShowCollectWings()
     {
-        if (count >= 4)
-            return gravityFly;
-        else if (count >= 2)
-            return gravityDecend;
-        else
-            return gravityFall;
+        characterWings.GetComponent<WingController>().ShowMainWings();
     }
 
-    // this is called from playerscored script
-    // when char landed on the score road
-    public void PlayerScored(int score)
+    public void IncreaseWings(int value)
     {
-        levelFinished = true;
-        Debug.Log("score: " + score);
+        wingCount += value;
+        Debug.Log(gameObject.name + " wing count : " + wingCount);
+    }
+
+    public int GetWings()
+    {
+        return wingCount;
     }
 
     // look for score road, when it hits finish the level
@@ -184,6 +195,19 @@ public class CharController : MonoBehaviour
             float sectionLength = (scoreEndMarkerT.position.z - finishMarkerT.position.z) / scoreSections;
             float distanceFlied = transform.position.z - finishMarkerT.position.z;
             int score = (int)(distanceFlied / sectionLength) + 1;
+
+            Debug.Log(gameObject.name + " score: " + score);
+            // these value will be put on a simple leaderboard after the level is over
         }
+    }
+
+    private float GravityAtWingCount(int count)
+    {
+        if (count >= 4)
+            return gravityFly;
+        else if (count >= 2)
+            return gravityDecend;
+        else
+            return gravityFall;
     }
 }

@@ -6,23 +6,26 @@ public class LandingTrigger : MonoBehaviour
 {
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" || other.tag == "Bot")
         {
-            if (GameController.instance.isLandingAvailable == true)
+            if (GameController.instance.GetLandingValue(other.gameObject.name) == true)
                 return;
 
-            GameController.instance.isLandingAvailable = true;
+            GameController.instance.SetLandingValue(other.gameObject.name, true);
+            //Debug.Log(other.gameObject.name + " landing value: true");
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player" || other.tag == "Bot")
         {
-            if (GameController.instance.isLandingAvailable == false)
+            if (GameController.instance.GetLandingValue(other.gameObject.name) == false)
                 return;
 
-            GameController.instance.isLandingAvailable = false;
+            GameController.instance.SetLandingValue(other.gameObject.name, false);
+            //Debug.Log(other.gameObject.name + " landing value: false");
         }
     }
+
 }

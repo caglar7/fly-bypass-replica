@@ -7,6 +7,7 @@ using System.Linq;
 public class WingController : MonoBehaviour
 {
     [SerializeField] private GameObject wingPrefab;
+    [SerializeField] private CharController character; // player or bots
 
     private Transform mainLeftT, mainRightT;
 
@@ -41,13 +42,13 @@ public class WingController : MonoBehaviour
     public void OpenWings()
     {
         // check wing count first
-        if (CharController.wingCount < 2)
+        if (character.GetWings() < 2)
             return;
 
         int showCount = 0;
         int instantiateCount = 0;
         showCount += leftWingObjects.Count;
-        instantiateCount += ((CharController.wingCount -2) - (leftWingObjects.Count * 2)) / 2;
+        instantiateCount += ((character.GetWings() - 2) - (leftWingObjects.Count * 2)) / 2;
 
         // first show the ones that are already created
         for(int i=0; i<leftWingObjects.Count; i++)

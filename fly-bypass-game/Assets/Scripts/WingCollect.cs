@@ -46,13 +46,14 @@ public class WingCollect : MonoBehaviour
         if (isAvailable == false)
             return;
 
-        if(other.tag == "Player")
+        if(other.tag == "Player" || other.tag == "Bot")
         {
             // if no collect wings on back, place them, happens only at first
-            if(GameController.instance.collectWingsOnBack == false)
+            if(GameController.instance.GetMainWingsValue(other.gameObject.name) == false)
             {
-                GameController.instance.collectWingsOnBack = true;
+                GameController.instance.SetMainWingsValue(other.gameObject.name, true);
                 other.gameObject.GetComponent<CharController>().ShowCollectWings();
+                Debug.Log(other.gameObject.name + " main wings are set");
             }
 
             timeRemaining = updateTime;
@@ -60,7 +61,7 @@ public class WingCollect : MonoBehaviour
             DeactivateCollectWing();
 
             // give +3 wings to character with an text animation and particle effect
-            CharController.wingCount += 3;
+            other.gameObject.GetComponent<CharController>().IncreaseWings(3);
         }
     }
 
@@ -76,5 +77,26 @@ public class WingCollect : MonoBehaviour
         collider.enabled = true;
         foreach (MeshRenderer m in meshRenderers)
             m.enabled = true;
+    }
+
+    private bool GetMainWingsValue(string name)
+    {
+        bool value;
+        if (GameController.instance.mainWingsOnBack.TryGetValue(name, out value))
+        {
+            // success
+            return value;
+        }
+        else
+        {
+            // failure
+            Debug.Log("Couldnt get isLandingAvailable value from dictionary, returning false");
+            return false;
+        }
+    }
+
+    private void SetMainWingsValue(string name, bool value)
+    {
+        GameController.instance.mainWingsOnBack[name] = value;
     }
 }
