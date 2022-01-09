@@ -10,6 +10,14 @@ public class CharController : MonoBehaviour
     // bot parameters
     [Header("Bot Controls")]
     [SerializeField] private bool isBot = false;
+    [SerializeField] private Transform[] xPositions;
+    [SerializeField] private float xChangeTime1 = 1f, xChangeTime2 = 3f; // no zero for time1
+    [SerializeField] private float smoothTime = .3f; // rotation set back to zero in smoothtime
+    private float xChangeTimer;
+    private bool xPositionChange = false;
+    private float nextXPosition;
+    private bool isSmoothing = false;
+    private float prevAngle;
 
     // character controls, ground layer, jumping
     [Header("Character Controls")]
@@ -18,7 +26,7 @@ public class CharController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float jumpHeight = 10f;   // if any changes, calculate the time it takes to reach peak and adjust applytime
     private float horizontal = 0f;
-    private float rotation = 0f;
+    private float rotation, rotationY, angle;
 
     [Header("Gravity Parameters")]
     [SerializeField] private float gravityRun = -40f;
@@ -59,6 +67,7 @@ public class CharController : MonoBehaviour
         isRunning = true;
         wingCount = 0;
         wingsTimer = loseWingsPeriod;
+        xChangeTimer = Random.Range(xChangeTime1, xChangeTime2);
     }
 
     void Update()
@@ -69,24 +78,58 @@ public class CharController : MonoBehaviour
 
         if(isBot)
         {
-            // assigning horizontal for bots
+            // every random time in t1-t2, bot has a new next x position target
+            xChangeTimer -= Time.deltaTime;
+            if(xChangeTimer <= 0f && xPositionChange == false)
+            {
+                xChangeTimer = Random.Range(xChangeTime1, xChangeTime2);
+                xPositionChange = true;
+                nextXPosition = GetNextXPoint();
+            }
 
-            // test
-            horizontal = 0f;
+            // horizontal value left or right till reaches the xpos
+            // position change and smoothing time should be less than xChangeTimes
+            if(xPositionChange && isSmoothing == false)
+            {
+                horizontal = ((nextXPosition - transform.position.x) > 0f) ? 1f : horizontal;
+                horizontal = ((nextXPosition - transform.position.x) < 0f) ? -1f : horizontal;
+                if (Mathf.Abs(nextXPosition - transform.position.x) <= .1f)
+                {
+                    horizontal = 0f;
+                    xPositionChange = false;
+                    isSmoothing = true;
+                    prevAngle = angle;
+                }
+            }
+
+            if(isSmoothing)
+            {
+                // bot rotation angle assign, with smoothing time
+                angle = Mathf.Lerp(prevAngle, 0f, rotationSpeed * Time.deltaTime / smoothTime);
+                if(angle == 0f)
+                {
+                    isSmoothing = false;
+                }
+            }
+            else
+            {
+                // rotation
+                CharacterRotation();
+            }
+
+            Debug.Log("angle: " + angle);
+
         }
         else
         {
             // player control, later with touch scroll
             horizontal = Input.GetAxisRaw("Horizontal");
+
+            // rotation
+            CharacterRotation();
         }
 
-
-        // assign rotation on proper direction
-        rotation = rotationSpeed * horizontal;
-
-        // rotation 
-        float rotationY = transform.rotation.eulerAngles.y;
-        float angle = rotationY + rotation * Time.deltaTime;
+        // rotation assign
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
         // check ground and apply gravity if not on ground, check landing triggers
@@ -148,6 +191,14 @@ public class CharController : MonoBehaviour
         animator.SetBool("IsFlying", isFlying);
     }
 
+    // character rotation
+    private void CharacterRotation()
+    {
+        rotation = rotationSpeed * horizontal;
+        rotationY = transform.rotation.eulerAngles.y;
+        angle = rotationY + rotation * Time.deltaTime;
+    }
+
     // wait and apply proper gravity
     // considering wing count
     IEnumerator ApplyGravityAfterDelay()
@@ -169,12 +220,18 @@ public class CharController : MonoBehaviour
     public void IncreaseWings(int value)
     {
         wingCount += value;
-        Debug.Log(gameObject.name + " wing count : " + wingCount);
     }
 
     public int GetWings()
     {
         return wingCount;
+    }
+
+    // for AI movements
+    private float GetNextXPoint()
+    {
+        // return a random x value in platform horizontal range
+        return Random.Range(xPositions[0].position.x, xPositions[1].position.x);
     }
 
     // look for score road, when it hits finish the level
