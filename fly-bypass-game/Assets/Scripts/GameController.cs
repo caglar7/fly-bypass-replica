@@ -27,11 +27,13 @@ public class GameController : MonoBehaviour
         isLandingAvailable.Add("Bot1", false);
         isLandingAvailable.Add("Bot2", false);
         isLandingAvailable.Add("Bot3", false);
+        isLandingAvailable.Add("Bot4", false);
 
         mainWingsOnBack.Add("Player", false);
         mainWingsOnBack.Add("Bot1", false);
         mainWingsOnBack.Add("Bot2", false);
         mainWingsOnBack.Add("Bot3", false);
+        mainWingsOnBack.Add("Bot4", false);
     }
 
     // Get and Set isLandingAvailable bools
