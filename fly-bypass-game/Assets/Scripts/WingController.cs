@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-
 public class WingController : MonoBehaviour
 {
     [SerializeField] private GameObject wingPrefab;
@@ -113,5 +112,6 @@ public class WingController : MonoBehaviour
         // disable renderer, later might be with animation and effect
         mainLeftT.gameObject.GetComponent<MeshRenderer>().enabled = false;
         mainRightT.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        GameController.instance.SetMainWingsValue(character.gameObject.name, false);
     }
 }

@@ -922,7 +922,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBot: 1
-  speed: 10
+  xPositions:
+  - {fileID: 0}
+  - {fileID: 0}
+  xChangeTime1: 1
+  xChangeTime2: 2.5
+  smoothTime: 0.3
+  speed: 8.5
   rotationSpeed: 50
   groundLayer:
     serializedVersion: 2

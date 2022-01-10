@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// assign dictionaries for player and bots here
+// assign dictionaries for player and bots here, add bots here if needed
+// max bot count: 3
 // pause, resume actions
 // parameters shared by many units
 
@@ -12,7 +13,6 @@ public class GameController : MonoBehaviour
 
     public float wingCollectTime = 2f;
     [System.NonSerialized] public Dictionary<string, bool> mainWingsOnBack = new Dictionary<string, bool>();
-
     [System.NonSerialized] public Dictionary<string, bool> isLandingAvailable = new Dictionary<string, bool>();
 
     void Awake()
@@ -26,10 +26,12 @@ public class GameController : MonoBehaviour
         isLandingAvailable.Add("Player", false);
         isLandingAvailable.Add("Bot1", false);
         isLandingAvailable.Add("Bot2", false);
+        isLandingAvailable.Add("Bot3", false);
 
         mainWingsOnBack.Add("Player", false);
         mainWingsOnBack.Add("Bot1", false);
         mainWingsOnBack.Add("Bot2", false);
+        mainWingsOnBack.Add("Bot3", false);
     }
 
     // Get and Set isLandingAvailable bools

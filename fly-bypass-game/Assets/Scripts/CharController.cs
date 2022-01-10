@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharController : MonoBehaviour
 {
+    #region PARAMETERS
     // char controller and speed adjusting
     private CharacterController charController;
 
@@ -18,6 +19,7 @@ public class CharController : MonoBehaviour
     private float nextXPosition;
     private bool isSmoothing = false;
     private float prevAngle;
+    private bool botFinished = false;
 
     // character controls, ground layer, jumping
     [Header("Character Controls")]
@@ -60,6 +62,12 @@ public class CharController : MonoBehaviour
     private bool levelFinished = false;
     private float scoreSections = 40f;
 
+    [Header("Check Point Parameters")]
+    [SerializeField] private float checkPointDelay = 1f;
+    private bool characterFall = false;
+
+    #endregion
+
     void Start()
     {
         charController = GetComponent<CharacterController>();
@@ -72,19 +80,35 @@ public class CharController : MonoBehaviour
 
     void Update()
     {
+        // don't run the code when level is over
         if (levelFinished)
             return;
 
+        // checkpoint
+        if (characterFall)
+            return;
 
-        if(isBot)
+        // keep angle in range
+        angle = (angle < -90f) ? (angle + 360f) : angle;
+        angle = (angle > 90f) ? (360 - angle) : angle;
+        if (isBot && botFinished == false)
         {
+            if(transform.position.z >= finishMarkerT.position.z)
+            {
+                botFinished = true;
+                angle = 0f;
+                horizontal = 0f;
+                return;
+            }
+
             // every random time in t1-t2, bot has a new next x position target
             xChangeTimer -= Time.deltaTime;
-            if(xChangeTimer <= 0f && xPositionChange == false)
+            if(xChangeTimer <= 0f && xPositionChange == false && isSmoothing == false)
             {
                 xChangeTimer = Random.Range(xChangeTime1, xChangeTime2);
                 xPositionChange = true;
                 nextXPosition = GetNextXPoint();
+
             }
 
             // horizontal value left or right till reaches the xpos
@@ -104,20 +128,18 @@ public class CharController : MonoBehaviour
 
             if(isSmoothing)
             {
-                // bot rotation angle assign, with smoothing time
+                // bot rotation angle assign
                 angle = Mathf.Lerp(prevAngle, 0f, rotationSpeed * Time.deltaTime / smoothTime);
-                if(angle == 0f)
+                if(angle == 0f)      
                 {
                     isSmoothing = false;
-                }
+                }  
             }
             else
             {
                 // rotation
                 CharacterRotation();
             }
-
-            Debug.Log("angle: " + angle);
 
         }
         else
@@ -191,27 +213,8 @@ public class CharController : MonoBehaviour
         animator.SetBool("IsFlying", isFlying);
     }
 
-    // character rotation
-    private void CharacterRotation()
-    {
-        rotation = rotationSpeed * horizontal;
-        rotationY = transform.rotation.eulerAngles.y;
-        angle = rotationY + rotation * Time.deltaTime;
-    }
 
-    // wait and apply proper gravity
-    // considering wing count
-    IEnumerator ApplyGravityAfterDelay()
-    {
-        yield return new WaitForSeconds(gravityApplyTime);
-        velocityY = 0f;
-        gravity = GravityAtWingCount(wingCount);
-
-        // open wings
-        characterWings.GetComponent<WingController>().OpenWings();
-        isWingsOpen = true;
-    }
-
+    #region WING METHODS
     public void ShowCollectWings()
     {
         characterWings.GetComponent<WingController>().ShowMainWings();
@@ -226,14 +229,32 @@ public class CharController : MonoBehaviour
     {
         return wingCount;
     }
+    #endregion
 
-    // for AI movements
-    private float GetNextXPoint()
+
+    #region CHECK POINT CALL AND DELAY
+    public void CharacterCheckPoint(Vector3 pos)
     {
-        // return a random x value in platform horizontal range
-        return Random.Range(xPositions[0].position.x, xPositions[1].position.x);
+        // toggle, assign pos, idle anim, delay
+        characterFall = true;
+        transform.position = pos;
+        transform.eulerAngles = Vector3.zero;
+        isRunning = false;
+        isFlying = false;
+        animator.SetBool("IsRunning", isRunning);
+        animator.SetBool("IsFlying", isFlying);
+        StartCoroutine(CheckPointWait());
     }
 
+    IEnumerator CheckPointWait()
+    {
+        yield return new WaitForSeconds(checkPointDelay);
+        characterFall = false;
+    }
+    #endregion
+
+
+    #region FINISH ROAD COLLIDER
     // look for score road, when it hits finish the level
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -257,6 +278,24 @@ public class CharController : MonoBehaviour
             // these value will be put on a simple leaderboard after the level is over
         }
     }
+    #endregion
+
+
+    #region METHOD CALLS AND DELAYS IN UPDATE
+    // character rotation
+    private void CharacterRotation()
+    {
+        rotation = rotationSpeed * horizontal;
+        rotationY = transform.rotation.eulerAngles.y;
+        angle = rotationY + rotation * Time.deltaTime;
+    }
+
+    // for AI movements
+    private float GetNextXPoint()
+    {
+        // return a random x value in platform horizontal range
+        return Random.Range(xPositions[0].position.x, xPositions[1].position.x);
+    }
 
     private float GravityAtWingCount(int count)
     {
@@ -267,4 +306,18 @@ public class CharController : MonoBehaviour
         else
             return gravityFall;
     }
+
+    // wait and apply proper gravity
+    // considering wing count
+    IEnumerator ApplyGravityAfterDelay()
+    {
+        yield return new WaitForSeconds(gravityApplyTime);
+        velocityY = 0f;
+        gravity = GravityAtWingCount(wingCount);
+
+        // open wings
+        characterWings.GetComponent<WingController>().OpenWings();
+        isWingsOpen = true;
+    }
+    #endregion
 }
