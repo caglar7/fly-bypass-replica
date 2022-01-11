@@ -57,6 +57,7 @@ public class CharController : MonoBehaviour
 
     // player score parameters
     [Header("Player Scored Parameters")]
+    [SerializeField] private Transform startMarkerT;
     [SerializeField] private Transform finishMarkerT;
     [SerializeField] private Transform scoreEndMarkerT;
     private bool levelFinished = false;
@@ -211,6 +212,10 @@ public class CharController : MonoBehaviour
         // play proper animations
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsFlying", isFlying);
+
+        // assign arrow UI for distance, only if char in range
+        if (transform.position.z <= finishMarkerT.position.z && transform.gameObject.tag == "Player")
+            CanvasController.instance.AssignArrowUI(transform.position.z, startMarkerT.position.z, finishMarkerT.position.z);
     }
 
 

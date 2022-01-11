@@ -1663,6 +1663,11 @@ PrefabInstance:
       propertyPath: scoreEndMarkerT
       value: 
       objectReference: {fileID: 1779711295}
+    - target: {fileID: 3743344481702700272, guid: 323a6200a6c3ae8478b349cd67436cec,
+        type: 3}
+      propertyPath: startMarkerT
+      value: 
+      objectReference: {fileID: 923877813}
     - target: {fileID: 3743344481702700273, guid: 323a6200a6c3ae8478b349cd67436cec,
         type: 3}
       propertyPath: m_Name
@@ -5212,7 +5217,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1070674940}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -5233,7 +5238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7859,6 +7864,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c43563b85a6bb42ac8cc3c7af60eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arrowRT: {fileID: 1087683667}
+  finishRT: {fileID: 424702473}
 --- !u!4 &731875902 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2860632356757182587, guid: fdc193bc79b3eac4b88f031ebb87727c,
@@ -8575,8 +8582,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831788516}
-  m_LocalRotation: {x: -0.4531408, y: -0.000000021691827, z: -0.0000000110265015,
-    w: 0.89143896}
+  m_LocalRotation: {x: -0.4531408, y: 0.000000021691827, z: 0.0000000110265015, w: 0.89143896}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -10154,8 +10160,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.109821916, y: -0.000000037125325, z: -0.0000000017031876,
-    w: 0.9939513}
+  m_LocalRotation: {x: 0.109821916, y: -0.00000002461495, z: 0.000000005446621, w: 0.9939513}
   m_LocalPosition: {x: -1.78, y: 5.7661138, z: -11.704457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -10770,8 +10775,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1087683667}
   - {fileID: 424702473}
+  - {fileID: 1087683667}
   m_Father: {fileID: 845953083}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11036,7 +11041,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1070674940}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -16884,6 +16889,7 @@ MonoBehaviour:
   characterWings: {fileID: 1836339384}
   loseWingsPeriod: 0.2
   animator: {fileID: 1070966438}
+  startMarkerT: {fileID: 923877813}
   finishMarkerT: {fileID: 2101470692}
   scoreEndMarkerT: {fileID: 1779711295}
   checkPointDelay: 1
@@ -20361,6 +20367,11 @@ PrefabInstance:
       propertyPath: scoreEndMarkerT
       value: 
       objectReference: {fileID: 1779711295}
+    - target: {fileID: 3743344481702700272, guid: 323a6200a6c3ae8478b349cd67436cec,
+        type: 3}
+      propertyPath: startMarkerT
+      value: 
+      objectReference: {fileID: 923877813}
     - target: {fileID: 3743344481702700273, guid: 323a6200a6c3ae8478b349cd67436cec,
         type: 3}
       propertyPath: m_Name
