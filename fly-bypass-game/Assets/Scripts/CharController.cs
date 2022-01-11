@@ -279,10 +279,23 @@ public class CharController : MonoBehaviour
             float distanceFlied = transform.position.z - finishMarkerT.position.z;
             int score = (int)(distanceFlied / sectionLength) + 1;
 
-            Debug.Log(gameObject.name + " score: " + score);
-            // these value will be put on a simple leaderboard after the level is over
+            // assign score value to dictionary
+            GameController.instance.SetScoreValue(transform.gameObject.name, score);
+            StartCoroutine(WaitAndUpdateBoard());    // only tries to update when subcanvas is active
+
+            // if player, switch canvas to leaderboards
+            if(transform.gameObject.tag == "Player")
+                CanvasController.instance.SwitchCanvas(CanvasType.LeaderBoard);
+
         }
     }
+
+    IEnumerator WaitAndUpdateBoard()
+    {
+        yield return new WaitForSeconds(1f);
+        CanvasController.instance.UpdateLeaderboard();
+    }
+
     #endregion
 
 

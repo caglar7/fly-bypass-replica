@@ -3774,6 +3774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wingCollectTime: 1.4
+  numberOfBots: 3
 --- !u!4 &292867697
 Transform:
   m_ObjectHideFlags: 0
@@ -10314,7 +10315,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.5625498, y: 1}
+    m_SensorSize: {x: 0.5003984, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -17169,7 +17170,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.5625498, y: 1}
+    m_SensorSize: {x: 0.5003984, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -17185,7 +17186,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1532965589}
-  m_LocalRotation: {x: 0.1894833, y: 0.000000016894676, z: -0.0000000032603225, w: 0.98188394}
+  m_LocalRotation: {x: 0.1894833, y: -0.000000016894665, z: 0.0000000032603205, w: 0.98188394}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -18901,7 +18902,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.5625498, y: 1}
+    m_SensorSize: {x: 0.5003984, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -20098,6 +20099,7 @@ MonoBehaviour:
   characterWings: {fileID: 1836339384}
   loseWingsPeriod: 0.2
   animator: {fileID: 1070966438}
+  startMarkerT: {fileID: 0}
   finishMarkerT: {fileID: 2101470692}
   scoreEndMarkerT: {fileID: 1779711295}
   checkPointDelay: 1
@@ -21752,7 +21754,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.5625498, y: 1}
+    m_SensorSize: {x: 0.5003984, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

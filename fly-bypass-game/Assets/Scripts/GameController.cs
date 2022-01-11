@@ -12,8 +12,11 @@ public class GameController : MonoBehaviour
     public static GameController instance;
 
     public float wingCollectTime = 2f;
+    public int numberOfBots;
     [System.NonSerialized] public Dictionary<string, bool> mainWingsOnBack = new Dictionary<string, bool>();
     [System.NonSerialized] public Dictionary<string, bool> isLandingAvailable = new Dictionary<string, bool>();
+    [System.NonSerialized] public Dictionary<string, int> finishScores = new Dictionary<string, int>();
+
 
     void Awake()
     {
@@ -34,6 +37,12 @@ public class GameController : MonoBehaviour
         mainWingsOnBack.Add("Bot2", false);
         mainWingsOnBack.Add("Bot3", false);
         mainWingsOnBack.Add("Bot4", false);
+
+        finishScores.Add("Player", 0);
+        finishScores.Add("Bot1", 0);
+        finishScores.Add("Bot2", 0);
+        finishScores.Add("Bot3", 0);
+        finishScores.Add("Bot4", 0);
     }
 
 
@@ -98,5 +107,27 @@ public class GameController : MonoBehaviour
     public void SetMainWingsValue(string name, bool value)
     {
         mainWingsOnBack[name] = value;
+    }
+
+    // Get and Set finish scores, integers
+    public int GetScoreValue(string name)
+    {
+        int value;
+        if (finishScores.TryGetValue(name, out value))
+        {
+            // success
+            return value;
+        }
+        else
+        {
+            // failure
+            Debug.Log("Couldnt get finish score value from dictionary, returning 0");
+            return 0;
+        }
+    }
+
+    public void SetScoreValue(string name, int value)
+    {
+        finishScores[name] = value;
     }
 }

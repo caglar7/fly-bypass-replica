@@ -53,7 +53,6 @@ public class WingCollect : MonoBehaviour
             {
                 GameController.instance.SetMainWingsValue(other.gameObject.name, true);
                 other.gameObject.GetComponent<CharController>().ShowCollectWings();
-                Debug.Log(other.gameObject.name + " main wings are set");
             }
 
             timeRemaining = updateTime;

@@ -8,6 +8,7 @@ public enum ButtonType
     PauseButton,
     ResumeButton,
     ExitButton,
+    LoadNextButton,
 }
 
 
