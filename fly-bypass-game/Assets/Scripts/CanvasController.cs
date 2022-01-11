@@ -24,7 +24,7 @@ public class CanvasController : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        listSubCanvas = GetComponentsInChildren<SubCanvas>(false).ToList();
+        listSubCanvas = GetComponentsInChildren<SubCanvas>(true).ToList();
         SwitchCanvas(CanvasType.GameUI);
     }
 

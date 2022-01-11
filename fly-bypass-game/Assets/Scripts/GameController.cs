@@ -36,6 +36,25 @@ public class GameController : MonoBehaviour
         mainWingsOnBack.Add("Bot4", false);
     }
 
+
+    #region PAUSE, RESUME, QUIT METHODS
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+    #endregion
+
+
     // Get and Set isLandingAvailable bools
     public bool GetLandingValue(string name)
     {
