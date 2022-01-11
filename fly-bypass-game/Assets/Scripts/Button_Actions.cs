@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// might be a delay when loading and switching canvas
+
 public enum ButtonType
 { 
     PauseButton,
@@ -10,7 +12,6 @@ public enum ButtonType
     ExitButton,
     LoadNextButton,
 }
-
 
 [RequireComponent(typeof(Button))]
 public class Button_Actions : MonoBehaviour
@@ -38,6 +39,10 @@ public class Button_Actions : MonoBehaviour
                 break;
             case ButtonType.ExitButton:
                 GameController.instance.ExitGame();
+                break;
+            case ButtonType.LoadNextButton:
+                SceneLoader.LoadNextLevel();
+                CanvasController.instance.SwitchCanvas(CanvasType.GameUI);
                 break;
             default:
                 Debug.Log("button actions, unknown button type!");

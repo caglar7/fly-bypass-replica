@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
+    public int currentLevel;
     public float wingCollectTime = 2f;
     public int numberOfBots;
     [System.NonSerialized] public Dictionary<string, bool> mainWingsOnBack = new Dictionary<string, bool>();
