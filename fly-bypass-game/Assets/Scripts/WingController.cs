@@ -82,6 +82,7 @@ public class WingController : MonoBehaviour
         leftWingObjects.RemoveAt(index);
         wing1.AddComponent<Rigidbody>();
         wing1.GetComponent<Animator>().SetBool("FadeOut", true);
+        wing1.transform.SetParent(null, true);
         Destroy(wing1, wingDestroyTime);
 
         // right wing
@@ -89,6 +90,7 @@ public class WingController : MonoBehaviour
         rightWingObjects.RemoveAt(index);
         wing2.AddComponent<Rigidbody>();
         wing2.GetComponent<Animator>().SetBool("FadeOut", true);
+        wing2.transform.SetParent(null, true);
         Destroy(wing2, wingDestroyTime);
     }
 

@@ -11,13 +11,17 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
+    [SerializeField] private Canvas startCanvas;
     public int currentLevel;
     public float wingCollectTime = 2f;
     public int numberOfBots;
+    public bool gamePaused = false;
     [System.NonSerialized] public Dictionary<string, bool> mainWingsOnBack = new Dictionary<string, bool>();
     [System.NonSerialized] public Dictionary<string, bool> isLandingAvailable = new Dictionary<string, bool>();
     [System.NonSerialized] public Dictionary<string, int> finishScores = new Dictionary<string, int>();
     [System.NonSerialized] public bool initLeaderboard = false;
+
+    private float delay1;
 
     void Awake()
     {
@@ -44,18 +48,28 @@ public class GameController : MonoBehaviour
         finishScores.Add("Bot2", 0);
         finishScores.Add("Bot3", 0);
         finishScores.Add("Bot4", 0);
+
+        // play theme song
+        AudioManager.instance.PlayThemeSong();
+        PauseGame();
     }
 
+    void Start()
+    {
+        startCanvas.gameObject.SetActive(true);
+    }
 
     #region PAUSE, RESUME, QUIT METHODS
     public void PauseGame()
     {
         Time.timeScale = 0f;
+        gamePaused = true;
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1f;
+        gamePaused = false;
     }
 
     public void ExitGame()

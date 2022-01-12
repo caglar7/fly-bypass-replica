@@ -75,4 +75,18 @@ public class AudioManager : MonoBehaviour
         if (currentSound.isLooping)
             currentSound.audioSource.Stop();
     }
+
+    // play this once in gamecontroller
+    public void PlayThemeSong()
+    {
+        Sound sound = Array.Find(sounds, s => s.name == "Theme1");
+        if (sound == null)
+        {
+            Debug.Log("sound is not found!");
+            return;
+        }
+
+        sound.audioSource.volume = sound.volume;
+        sound.audioSource.Play();
+    }
 }

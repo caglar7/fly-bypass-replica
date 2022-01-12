@@ -81,6 +81,9 @@ public class CharController : MonoBehaviour
 
     void Update()
     {
+        if (GameController.instance.gamePaused)
+            return;
+
         // don't run the code when level is over
         if (levelFinished)
             return;
