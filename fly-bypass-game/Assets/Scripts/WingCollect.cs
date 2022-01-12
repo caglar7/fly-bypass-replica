@@ -48,12 +48,17 @@ public class WingCollect : MonoBehaviour
 
         if(other.tag == "Player" || other.tag == "Bot")
         {
+            // if player, play collect sound
+            if (other.tag == "Player")
+                AudioManager.instance.PlayRandomSound(AudioManager.instance.wingcollects);
+
             // if no collect wings on back, place them, happens only at first
             if(GameController.instance.GetMainWingsValue(other.gameObject.name) == false)
             {
                 GameController.instance.SetMainWingsValue(other.gameObject.name, true);
                 other.gameObject.GetComponent<CharController>().ShowCollectWings();
             }
+
 
             timeRemaining = updateTime;
             isAvailable = false;

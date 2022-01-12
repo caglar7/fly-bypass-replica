@@ -27,6 +27,9 @@ public class Button_Actions : MonoBehaviour
 
     private void ButtonAction()
     {
+        // play button sound
+        AudioManager.instance.PlayRandomSound(AudioManager.instance.presses);
+
         switch(buttonType)
         {
             case ButtonType.PauseButton:

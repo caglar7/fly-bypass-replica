@@ -1515,6 +1515,95 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdc193bc79b3eac4b88f031ebb87727c, type: 3}
+--- !u!1 &124801062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 124801064}
+  - component: {fileID: 124801063}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &124801063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124801062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32bf055db854f654da873ca71b028a84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: ButtonPress1
+    clip: {fileID: 8300000, guid: 59f88ecbace416e4c8b004b6cdce7ad3, type: 3}
+    volume: 0.8
+    pitch: 1
+    initialVolumeLevel: 0
+    audioSource: {fileID: 0}
+    isLooping: 0
+  - name: ButtonPress2
+    clip: {fileID: 8300000, guid: b99826aa93a4c6e41a524fc6c19998f5, type: 3}
+    volume: 0.8
+    pitch: 1
+    initialVolumeLevel: 0
+    audioSource: {fileID: 0}
+    isLooping: 0
+  - name: ButtonPress3
+    clip: {fileID: 8300000, guid: 1e08193a49a102f49a022063371afd96, type: 3}
+    volume: 0.8
+    pitch: 1
+    initialVolumeLevel: 0
+    audioSource: {fileID: 0}
+    isLooping: 0
+  - name: WingCollect1
+    clip: {fileID: 8300000, guid: 1db6a009b1677e0439b17efb56d7afe6, type: 3}
+    volume: 0.6
+    pitch: 0.7
+    initialVolumeLevel: 0
+    audioSource: {fileID: 0}
+    isLooping: 0
+  - name: WingCollect2
+    clip: {fileID: 8300000, guid: 84e08d3f522824d419f47068d1c220b5, type: 3}
+    volume: 0.6
+    pitch: 0.7
+    initialVolumeLevel: 0
+    audioSource: {fileID: 0}
+    isLooping: 0
+  presses:
+  - ButtonPress1
+  - ButtonPress2
+  - ButtonPress3
+  wingcollects:
+  - WingCollect1
+  - WingCollect2
+  equips:
+  - Equip1
+  - Equip2
+--- !u!4 &124801064
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124801062}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &126029926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2860632356757182587, guid: fdc193bc79b3eac4b88f031ebb87727c,
@@ -10155,7 +10244,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831788516}
-  m_LocalRotation: {x: -0.4531408, y: 0.000000021691827, z: 0.0000000110265015, w: 0.89143896}
+  m_LocalRotation: {x: -0.4531408, y: -0.000000021691827, z: -0.0000000110265015,
+    w: 0.89143896}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -12043,7 +12133,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.109821916, y: -0.00000002461495, z: 0.000000005446621, w: 0.9939513}
+  m_LocalRotation: {x: 0.109821916, y: -0.000000037125325, z: -0.0000000017031876,
+    w: 0.9939513}
   m_LocalPosition: {x: -1.78, y: 5.7661138, z: -11.704457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -16745,7 +16836,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1532965589}
-  m_LocalRotation: {x: 0.1894833, y: -0.000000016894665, z: 0.0000000032603205, w: 0.98188394}
+  m_LocalRotation: {x: 0.1894833, y: 0.000000016894676, z: -0.0000000032603225, w: 0.98188394}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

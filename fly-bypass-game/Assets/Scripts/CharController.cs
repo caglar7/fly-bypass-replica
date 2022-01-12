@@ -226,6 +226,11 @@ public class CharController : MonoBehaviour
         // assign arrow UI for distance, only if char in range
         if (transform.position.z <= finishMarkerT.position.z && transform.gameObject.tag == "Player")
             CanvasController.instance.AssignArrowUI(transform.position.z, startMarkerT.position.z, finishMarkerT.position.z);
+
+        // play running sound effect
+        if(isOnGround && transform.gameObject.tag == "Player")
+            AudioManager.instance.PlaySound(AudioManager.instance.running);
+
     }
 
 
@@ -295,7 +300,11 @@ public class CharController : MonoBehaviour
 
             // if player, switch canvas to leaderboards
             if(transform.gameObject.tag == "Player")
+            {
+                // stop looping sound effects
+                AudioManager.instance.StopCurrentSound();
                 CanvasController.instance.SwitchCanvas(CanvasType.LeaderBoard);
+            }
 
         }
     }
@@ -346,6 +355,7 @@ public class CharController : MonoBehaviour
         // open wings
         characterWings.GetComponent<WingController>().OpenWings();
         isWingsOpen = true;
+        AudioManager.instance.PlaySound(AudioManager.instance.flying);
     }
     #endregion
 }
