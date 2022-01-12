@@ -151,11 +151,8 @@ public class CharController : MonoBehaviour
         }
         else
         {
-            // with touch input, before apk
-            //horizontal = TouchController.touchMoveDirection;
-
-            // with keyboard
-            horizontal = Input.GetAxisRaw("Horizontal");
+            // with touch input
+            horizontal = TouchController.touchMoveDirection;
 
             // rotation
             CharacterRotation();

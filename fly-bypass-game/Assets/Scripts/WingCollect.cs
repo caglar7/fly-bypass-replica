@@ -17,6 +17,7 @@ public class WingCollect : MonoBehaviour
     private BoxCollider collider;
     private MeshRenderer[] meshRenderers;
 
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class WingCollect : MonoBehaviour
         collider = GetComponent<BoxCollider>();
         meshRenderers = GetComponentsInChildren<MeshRenderer>();
         timeRemaining = updateTime;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -50,7 +52,10 @@ public class WingCollect : MonoBehaviour
         {
             // if player, play collect sound
             if (other.tag == "Player")
+            {
                 AudioManager.instance.PlayRandomSound(AudioManager.instance.wingcollects);
+                animator.SetBool("Collected", true);
+            }
 
             // if no collect wings on back, place them, happens only at first
             if(GameController.instance.GetMainWingsValue(other.gameObject.name) == false)
@@ -78,6 +83,7 @@ public class WingCollect : MonoBehaviour
 
     void ActivateCollectWing()
     {
+        animator.SetBool("Collected", false);
         collider.enabled = true;
         foreach (MeshRenderer m in meshRenderers)
             m.enabled = true;
