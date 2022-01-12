@@ -96,10 +96,13 @@ public class CharController : MonoBehaviour
         {
             if(transform.position.z >= finishMarkerT.position.z)
             {
+                Debug.Log(transform.gameObject.name + " no rotation point");
+                
                 botFinished = true;
                 angle = 0f;
                 horizontal = 0f;
                 return;
+
             }
 
             // every random time in t1-t2, bot has a new next x position target
@@ -154,6 +157,10 @@ public class CharController : MonoBehaviour
 
         // rotation assign
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+        // bot rotation fix
+        if (transform.gameObject.tag == "Bot" && botFinished == true)
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 
         // check ground and apply gravity if not on ground, check landing triggers
         isOnGround = Physics.CheckSphere(transform.position, .1f, groundLayer, QueryTriggerInteraction.Ignore);
@@ -292,7 +299,7 @@ public class CharController : MonoBehaviour
 
     IEnumerator WaitAndUpdateBoard()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.1f);
         CanvasController.instance.UpdateLeaderboard();
     }
 

@@ -22,7 +22,6 @@ public class FinishPlace : MonoBehaviour
         textName = texts.Where(x => x.gameObject.name == "name").SingleOrDefault();
         textScore = texts.Where(x => x.gameObject.name == "score").SingleOrDefault();
         positionText = textPosition.text;   // store 1st, 2nd etc.
-        InitialText();
     }
 
     public void InitialText()

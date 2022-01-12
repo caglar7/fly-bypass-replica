@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     [System.NonSerialized] public Dictionary<string, bool> mainWingsOnBack = new Dictionary<string, bool>();
     [System.NonSerialized] public Dictionary<string, bool> isLandingAvailable = new Dictionary<string, bool>();
     [System.NonSerialized] public Dictionary<string, int> finishScores = new Dictionary<string, int>();
-
+    [System.NonSerialized] public bool initLeaderboard = false;
 
     void Awake()
     {

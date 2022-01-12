@@ -78,6 +78,13 @@ public class CanvasController : MonoBehaviour
         if (currentActiveCanvas != CanvasType.LeaderBoard)
             return;
 
+        // init leaderboard texts
+        if(GameController.instance.initLeaderboard == false)
+        {
+            GameController.instance.initLeaderboard = true;
+            InitLeaderboard();
+        }
+
         // first sort the finishscores dictionary by values
         var sortedDictionary = from entry in GameController.instance.finishScores orderby entry.Value descending select entry;
         int index = 0;
@@ -86,6 +93,12 @@ public class CanvasController : MonoBehaviour
             listLeaderboard[index].SetPosition(pair.Key, pair.Value.ToString());
             index++;
         }
+    }
+
+    public void InitLeaderboard()
+    {
+        foreach (FinishPlace place in listLeaderboard)
+            place.InitialText();
     }
 }
 
